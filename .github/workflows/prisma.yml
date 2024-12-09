@@ -46,7 +46,7 @@ jobs:
           username: ${{ vars.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
       - name: Docker Build
-        run: docker build -t $IMAGE_NAME app/Dockerfile
+        run: docker buildx build -f app/Dockerfile -t $IMAGE_NAME 
       - name: Prisma Cloud image scan
         id: scan
         uses: PaloAltoNetworks/prisma-cloud-scan@v1.6.7
