@@ -13,8 +13,3 @@ variable "region" {
 variable "deployment_name" {
   default = "davila-eks"
 }
-
-variable "s3_backend" {}
-variable "s3_backend_key" {
-  default = "terraform.tfstate"
-}
