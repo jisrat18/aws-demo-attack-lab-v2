@@ -74,12 +74,8 @@ jobs:
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
     runs-on: ubuntu-latest
     name: Terraform Deployment
-    check-code:
-        runs-on: ubuntu-latest
-        defaults:
-            run:
-              shell: bash
-              working-directory: ./infra
+    env:
+      working-directory: ./infra
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
@@ -87,12 +83,15 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
+        working-directory: ${{ env.working-directory }}
 
       - name: Terraform Validate
         id: validate
         run: terraform validate
+        working-directory: ${{ env.working-directory }}
 
       - name: Terraform Plan
         id: plan
         run: terraform plan
+        working-directory: ${{ env.working-directory }}
         continue-on-error: true
