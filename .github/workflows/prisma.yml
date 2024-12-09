@@ -90,5 +90,5 @@ jobs:
         id: init
         working-directory: ${{ env.working-directory }}
         run: |
-        terraform init
-        terraform plan -var="region=${{ env.AWS_REGION }}" -var="s3_backend=${{ env.TF_VAR_S3_BACKEND }}" -var="deployment_name=${{ env.TF_VAR_DEPLOYMENT_NAME }}" 
+          terraform init
+          terraform plan -var="region=${{ env.AWS_REGION }}" -var="s3_backend=${{ env.TF_VAR_S3_BACKEND }}" -var="deployment_name=${{ env.TF_VAR_DEPLOYMENT_NAME }}" 
