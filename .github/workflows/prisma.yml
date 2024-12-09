@@ -67,13 +67,14 @@ jobs:
   #     - name: Docker Push
   #       run: docker push ${{ vars.IMAGE_NAME }}:${{ github.run_number }}
 
-    infra_deployment:
+  infra_deployment:
     permissions:
       contents: read
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
       actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
     runs-on: ubuntu-latest
     name: Terraform Deployment
+    working-directory: ./infra
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
@@ -84,9 +85,9 @@ jobs:
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
+        run: terraform validate
 
       - name: Terraform Plan
         id: plan
-        run: terraform plan -no-color
+        run: terraform plan
         continue-on-error: true
