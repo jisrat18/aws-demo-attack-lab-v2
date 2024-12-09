@@ -55,13 +55,15 @@ jobs:
           context: ./app
           file: ./app/Dockerfile
           tags: ${{ vars.IMAGE_NAME }}:${{ github.run_number }}
-      # - name: Prisma Cloud image scan
-      #   id: scan
-      #   uses: PaloAltoNetworks/prisma-cloud-scan@v1.6.7
-      #   with:
-      #     pcc_console_url: ${{ vars.PCC_CONSOLE_URL }}
-      #     pcc_user: ${{ secrets.PCC_USER }}
-      #     pcc_pass: ${{ secrets.PCC_PASS }}
-      #     image_name: ${{ vars.IMAGE_NAME }}
-      # - name: Docker Push
-      #   run: docker push -t $IMAGE_NAME
+      - name: Display Images
+        run: docker images
+      - name: Prisma Cloud image Scan
+        id: image_scan
+        uses: PaloAltoNetworks/prisma-cloud-scan@v1.6.7
+        with:
+          pcc_console_url: ${{ vars.PCC_CONSOLE_URL }}
+          pcc_user: ${{ secrets.PCC_USER }}
+          pcc_pass: ${{ secrets.PCC_PASS }}
+          image_name: "${{ vars.IMAGE_NAME }}:${{ github.run_number }}"
+      - name: Docker Push
+        run: docker push -t ${{ vars.IMAGE_NAME }}:${{ github.run_number }}
