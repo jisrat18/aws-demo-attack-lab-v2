@@ -114,6 +114,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Application Deployment
         working-directory: ${{ env.working-directory }}
-        run: |
-          bash -c ${{ env.KUBE_CONFIG }}
-          kubectl apply -f app.yaml
+        run: env | grep AWS
+        # run: |
+        #   bash -c ${{ env.KUBE_CONFIG }}
+        #   kubectl apply -f app.yaml
