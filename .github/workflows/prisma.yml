@@ -92,9 +92,11 @@ jobs:
         run: |
           terraform init -backend-config="bucket=${{ env.S3_BACKEND }}" -backend-config="region=${{ env.AWS_REGION }}" -backend-config="key=terraform.tfstate"
           terraform apply -auto-approve -var="region=${{ env.AWS_REGION }}" -var="deployment_name=${{ env.DEPLOYMENT_NAME }}"
-          KUBE_CONFIG=$(terraform output update_kube_config)
-          echo "KUBE_CONFIG=$KUBE_CONFIG" >> $GITHUB_ENV
-          env | grep KUBE
+      - name: Terraform Variables
+        id: init
+        working-directory: ${{ env.working-directory }}
+        run: |
+          terraform output
 
   app_deployment:
     needs: infra_deployment
