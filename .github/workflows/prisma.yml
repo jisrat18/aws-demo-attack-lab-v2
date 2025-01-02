@@ -113,7 +113,7 @@ jobs:
       - name: Defender Deployment
         working-directory: ${{ env.working-directory }}
         run: |
-          env | grep KUBE
+          echo $KUBE_CONFIG
 
       # - name: Application Deployment
       #   working-directory: ${{ env.working-directory }}
