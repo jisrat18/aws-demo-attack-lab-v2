@@ -114,6 +114,14 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
     steps:
       - uses: actions/checkout@v4
+      - uses: cschleiden/replace-tokens@v1
+        with:
+          tokenPrefix: '__'
+          tokenSuffix: '__'
+          files: '["**/app.yaml"]'
+        env:
+          imageName: ${{ vars.IMAGE_NAME }}
+          imageTag: "latest"
       - name: Application Deployment
         working-directory: ${{ env.working-directory }}
         run: |
