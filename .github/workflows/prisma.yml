@@ -91,10 +91,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
         run: |
           terraform init -backend-config="bucket=${{ env.S3_BACKEND }}" -backend-config="region=${{ env.AWS_REGION }}" -backend-config="key=terraform.tfstate"
-          terraform apply -auto-approve -var="region=${{ env.AWS_REGION }}" -var="deployment_name=${{ env.DEPLOYMENT_NAME }}" 
-      - name: Terraform Variables
-        working-directory: ${{ env.working-directory }}
-        run: |
+          terraform apply -auto-approve -var="region=${{ env.AWS_REGION }}" -var="deployment_name=${{ env.DEPLOYMENT_NAME }}"
           KUBE_CONFIG=$(terraform output update_kube_config)
           echo "KUBE_CONFIG=$KUBE_CONFIG" >> $GITHUB_ENV
           env | grep KUBE
@@ -114,12 +111,10 @@ jobs:
       - name: Defender Deployment
         working-directory: ${{ env.working-directory }}
         run: |
-          env
-          ${{ env.KUBE_CONFIG }}
-          kubectl create ns twistlock
-          kubectl apply -f daemonset.yaml
-      - name: Application Deployment
-        working-directory: ${{ env.working-directory }}
-        run: |
-          $KUBE_CONFIG
-          kubectl apply -f app.yaml
+          env | grep KUBE
+
+      # - name: Application Deployment
+      #   working-directory: ${{ env.working-directory }}
+      #   run: |
+      #     $KUBE_CONFIG
+      #     kubectl apply -f app.yaml
