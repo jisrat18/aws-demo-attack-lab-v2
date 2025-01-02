@@ -112,11 +112,8 @@ jobs:
       KUBE_CONFIG: ${{needs.infra_deployment.outputs.KUBE_CONFIG}}
     steps:
       - uses: actions/checkout@v4
-      - name: Defender Deployment
+      - name: Application Deployment
         working-directory: ${{ env.working-directory }}
-        run: aws --version
-      # - name: Application Deployment
-      #   working-directory: ${{ env.working-directory }}
-      #   run: |
-      #     ${{ env.KUBE_CONFIG }}
-      #     kubectl apply -f app.yaml
+        run: |
+          bash -c ${{ env.KUBE_CONFIG }}
+          kubectl apply -f app.yaml
