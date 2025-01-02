@@ -86,10 +86,31 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
-
       - name: Terraform Deployment
         id: init
         working-directory: ${{ env.working-directory }}
         run: |
           terraform init -backend-config="bucket=${{ env.S3_BACKEND }}" -backend-config="region=${{ env.AWS_REGION }}" -backend-config="key=terraform.tfstate"
           terraform apply -auto-approve -var="region=${{ env.AWS_REGION }}" -var="deployment_name=${{ env.DEPLOYMENT_NAME }}" 
+
+  app_deployment:
+    needs: infra_deployment
+    permissions:
+      contents: read
+      security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
+      actions: read # only required for a private repository by github/codeql-action/upload-sarif to get the Action run status
+    runs-on: ubuntu-24.04
+    name: Application Deployment
+    env:
+      working-directory: ./k8s_files
+    steps:
+      - uses: actions/checkout@v4
+      - name: Defender Deployment
+        working-directory: ${{ env.working-directory }}
+        run: |
+          kubectl create ns twistlock
+          kubectl apply -f daemonset.yaml
+      - name: Application Deployment
+        working-directory: ${{ env.working-directory }}
+        run: |
+          kubectl apply -f app.yaml
