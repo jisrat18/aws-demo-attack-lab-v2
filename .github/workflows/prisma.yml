@@ -114,10 +114,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Defender Deployment
         working-directory: ${{ env.working-directory }}
-        run: |
-          ${{ env.KUBE_CONFIG }}
-      - name: Application Deployment
-        working-directory: ${{ env.working-directory }}
-        run: |
-          ${{ env.KUBE_CONFIG }}
-          kubectl apply -f app.yaml
+        run: ${{ env.KUBE_CONFIG }}
+      # - name: Application Deployment
+      #   working-directory: ${{ env.working-directory }}
+      #   run: |
+      #     ${{ env.KUBE_CONFIG }}
+      #     kubectl apply -f app.yaml
