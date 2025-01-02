@@ -3,8 +3,6 @@ name: Deployment aws-demo-attack-lab-v2
 on:
   push:
     branches: [ "github" ]
-  # pull_request:
-  #   branches: [ "github" ]
 
 permissions:
   contents: read
