@@ -96,7 +96,7 @@ jobs:
         working-directory: ${{ env.working-directory }}
         run: |
           KUBE_CONFIG=$(terraform output update_kube_config)
-          echo $KUBE_CONFIG
+          echo "KUBE_CONFIG=$KUBE_CONFIG" >> $GITHUB_ENV
 
   app_deployment:
     needs: infra_deployment
