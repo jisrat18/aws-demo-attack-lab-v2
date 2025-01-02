@@ -94,9 +94,10 @@ jobs:
           terraform apply -auto-approve -var="region=${{ env.AWS_REGION }}" -var="deployment_name=${{ env.DEPLOYMENT_NAME }}"
       - name: Terraform Variables
         working-directory: ${{ env.working-directory }}
-        run: |
-          echo "KUBE_CONFIG=$(terraform output update_kube_config)" >> $GITHUB_ENV
-          echo "${{ env.KUBE_CONFIG }}"
+        id: step4
+        run: echo "::set-output name=KUBE_CONFIG::$(terraform output update_kube_config)"
+      - name: Use Output
+      run: echo "${{ steps.step4.outputs.KUBE_CONFIG }}"
 
   app_deployment:
     needs: infra_deployment
