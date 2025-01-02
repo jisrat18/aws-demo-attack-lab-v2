@@ -83,6 +83,8 @@ jobs:
       AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
       S3_BACKEND: ${{ vars.S3_BACKEND }}
       DEPLOYMENT_NAME: ${{ vars.DEPLOYMENT_NAME }}
+    outputs:
+      KUBE_CONFIG: ${{ steps.step4.outputs.KUBE_CONFIG }}
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
@@ -96,8 +98,6 @@ jobs:
         working-directory: ${{ env.working-directory }}
         id: step4
         run: echo "::set-output name=KUBE_CONFIG::$(terraform output update_kube_config)"
-      - name: Use Output
-        run: echo "${{ steps.step4.outputs.KUBE_CONFIG }}"
 
   app_deployment:
     needs: infra_deployment
@@ -109,13 +109,13 @@ jobs:
     name: Application Deployment
     env:
       working-directory: ./k8s_files
+      KUBE_CONFIG: ${{needs.infra_deployment.outputs.KUBE_CONFIG}}
     steps:
       - uses: actions/checkout@v4
       - name: Defender Deployment
         working-directory: ${{ env.working-directory }}
         run: |
           echo "${{ env.KUBE_CONFIG }}"
-
       # - name: Application Deployment
       #   working-directory: ${{ env.working-directory }}
       #   run: |
