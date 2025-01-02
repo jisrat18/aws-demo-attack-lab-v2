@@ -115,9 +115,9 @@ jobs:
       - name: Defender Deployment
         working-directory: ${{ env.working-directory }}
         run: |
-          echo "${{ env.KUBE_CONFIG }}"
-      # - name: Application Deployment
-      #   working-directory: ${{ env.working-directory }}
-      #   run: |
-      #     $KUBE_CONFIG
-      #     kubectl apply -f app.yaml
+          ${{ env.KUBE_CONFIG }}
+      - name: Application Deployment
+        working-directory: ${{ env.working-directory }}
+        run: |
+          ${{ env.KUBE_CONFIG }}
+          kubectl apply -f app.yaml
