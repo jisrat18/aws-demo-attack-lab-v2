@@ -97,7 +97,7 @@ jobs:
       - name: Terraform Variables
         working-directory: ${{ env.working-directory }}
         id: step4
-        run: echo "::set-output name=KUBE_CONFIG::$(terraform output update_kube_config)"
+        run: echo "KUBE_CONFIG=$(terraform output update_kube_config)" >> $GITHUB_OUTPUT
 
   app_deployment:
     needs: infra_deployment
