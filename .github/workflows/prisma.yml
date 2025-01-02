@@ -97,7 +97,7 @@ jobs:
         id: step4
         run: echo "::set-output name=KUBE_CONFIG::$(terraform output update_kube_config)"
       - name: Use Output
-      run: echo "${{ steps.step4.outputs.KUBE_CONFIG }}"
+        run: echo "${{ steps.step4.outputs.KUBE_CONFIG }}"
 
   app_deployment:
     needs: infra_deployment
