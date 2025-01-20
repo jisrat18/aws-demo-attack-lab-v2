@@ -1,8 +1,8 @@
-name: Deployment aws-demo-attack-lab-v2
+name: Deployment aws-demo-attack-lab-v3
 
 on:
   push:
-    branches: [ "github" ]
+    branches: [ "master" ]
 
 permissions:
   contents: read
